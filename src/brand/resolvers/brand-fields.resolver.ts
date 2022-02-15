@@ -8,7 +8,8 @@ import { ProductService } from '@/product/product.service';
 
 @Resolver(Brand)
 export class BrandFieldsResolver {
-  constructor(private readonly productService: ProductService) { }
+  constructor(
+    private readonly productService: ProductService) { }
 
   @ResolveField(() => ProductsPagination)
   ownedProductsPagination(

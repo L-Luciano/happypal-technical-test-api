@@ -8,10 +8,12 @@ import { ProductService } from '../product.service';
 import { User } from '@/user/models/user.model';
 import { Brand } from '@/brand/models/brand.model';
 import DataLoader from 'dataloader';
+import ProductLoaders from '../product.loader';
 
 @Resolver(Product)
 export class ProductFieldsResolver {
-  constructor(private readonly productService: ProductService) { }
+  constructor(private readonly productService: ProductService,
+    private readonly productLoaders: ProductLoaders) { }
 
   @ResolveField(() => [Picture])
   async pictures(@Viewer() viewer: Viewer, @Parent() parent: Product) {
@@ -32,7 +34,7 @@ export class ProductFieldsResolver {
     const { brandId } = parent;
     if (!brandId)
       return null;
-
-    return brandsLoader.load(brandId);
+    // return brandsLoader.load(brandId);
+    return this.productLoaders.batchBrands.load(brandId);
   }
 }

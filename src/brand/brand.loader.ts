@@ -1,4 +1,4 @@
-import { Viewer } from '@/auth/decorators/Viewer.decorator';
+import { Injectable, Scope } from '@nestjs/common';
 import DataLoader from 'dataloader';
 
 import { BrandService } from './brand.service';
@@ -11,6 +11,6 @@ export function createBrandsLoader(brandService: BrandService) {
         for (const brand of brands) {
             brandMap[brand.id] = brand;
         }
-        return ids.map((id) => brandMap[id]);
+        return ids.map((id) => brandMap[id] || new Error(`No brand for id : ${id}`));
     });
 }
